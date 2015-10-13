@@ -1,4 +1,4 @@
-# helper class for reading login file
+# helper module for reading login file
 
 # list for all login attempts
 attempts = []
