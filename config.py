@@ -1,6 +1,6 @@
 # parameter configuration
 
-import gmpy2
+from gmpy2 import mpz
 import random
 
 # size of history file
@@ -19,7 +19,7 @@ r = 0
 # generate r
 def generate_r():
     global r
-    r = generate_rand()
+    r = mpz(generate_rand())
 
 # hardened password
 h_pwd = 0
@@ -37,7 +37,7 @@ def init_random():
 
 # generate a q_size bit long random integer
 def generate_rand():
-    return rand.getrandbits(q_size)
+    return mpz(rand.getrandbits(q_size))
 
 
 # randomly generate a hardened password
@@ -46,6 +46,7 @@ def generate_h_pwd():
     h_pwd = generate_rand()
     while h_pwd >= q:
         h_pwd = generate_rand()
+    h_pwd = mpz(h_pwd)
 
 # prime
 q = 0
@@ -60,3 +61,4 @@ def generate_prime():
     q = generate_rand()
     while not gmpy2.is_prime(q):
         q = generate_rand()
+    q = mpz(q)

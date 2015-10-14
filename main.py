@@ -35,7 +35,10 @@ def main():
             print 1
             history.add_feature(feature)
         else:
-            correction()
+            if correction():
+                print 1
+            else:
+                print 0
 
 
 if __name__ == "__main__":

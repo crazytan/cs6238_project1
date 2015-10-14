@@ -1,6 +1,7 @@
 # helper module for en/decryption
 
 from Crypto.Cipher import AES
+from gmpy2 import mpz
 
 
 # return a byte string key
