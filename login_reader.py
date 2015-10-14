@@ -7,8 +7,8 @@ attempts = []
 current = 0
 
 
+# read the input file and store the login information in global variables
 def init(input_file):
-    # read the input file and store the login information in global variables
     with open(input_file, 'r') as login:
         lines = login.readlines()
         for i in range(len(lines) / 2):
@@ -18,13 +18,13 @@ def init(input_file):
             attempts.append((pwd, feature))
 
 
+# if there is still any login to process
 def has_next():
-    # if there is still any login to process
     return current < len(attempts)
 
 
+# return the next login attempt
 def next_login():
-    # return the next login attempt
     global current
     current += 1
     return attempts[current - 1]

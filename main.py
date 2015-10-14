@@ -7,19 +7,35 @@
 
 import login_reader as reader
 import instruction_table as table
+import polynomial as poly
+import config
 import history
 
 
 def initialize():
-    reader.init(raw_input())
-    table.init()
+    config.init_random()
+    config.generate_prime()
+    config.generate_h_pwd()
+    poly.generate_poly()
+    table.generate()
     history.init()
+    reader.init(raw_input())
+
+
+def correction():
+    pass
 
 
 def main():
     initialize()
     while reader.has_next():
-        pass
+        pwd, feature = reader.next_login()
+        h_pwd_ = poly.calculate(table.extract(pwd, feature))
+        if history.decrypt(h_pwd_):
+            print 1
+            history.add_feature(feature)
+        else:
+            correction()
 
 
 if __name__ == "__main__":
