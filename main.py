@@ -17,9 +17,9 @@ def initialize():
     config.generate_prime()
     config.generate_h_pwd()
     poly.generate_poly()
-    table.generate()
+    pwd = reader.init(raw_input())
+    table.generate(pwd)
     history.init()
-    reader.init(raw_input())
 
 
 def correction():
@@ -30,7 +30,7 @@ def main():
     initialize()
     while reader.has_next():
         pwd, feature = reader.next_login()
-        h_pwd_ = poly.calculate(table.extract(pwd, feature))
+        h_pwd_ = poly.get_h_pwd(table.extract(pwd, feature))
         if history.decrypt(h_pwd_):
             print 1
             history.add_feature(feature)

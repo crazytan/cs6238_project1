@@ -1,5 +1,7 @@
 # helper module for reading login file
 
+import config
+
 # list for all login attempts
 attempts = []
 
@@ -28,3 +30,8 @@ def next_login():
     global current
     current += 1
     return attempts[current - 1]
+
+
+# return if still in initialization stage
+def if_init():
+    return current <= config.history_size

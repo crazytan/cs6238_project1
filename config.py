@@ -13,9 +13,16 @@ k = 2
 
 ti = 10
 
+r = 0
+
+
+# generate r
+def generate_r():
+    global r
+    r = generate_rand()
+
 # hardened password
 h_pwd = 0
-
 
 # instance of Random class
 rand = None
@@ -40,10 +47,8 @@ def generate_h_pwd():
     while h_pwd >= q:
         h_pwd = generate_rand()
 
-
 # prime
 q = 0
-
 
 # prime size
 q_size = 160
