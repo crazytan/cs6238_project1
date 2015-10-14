@@ -18,6 +18,7 @@ def init(input_file):
             feature = map(lambda x: int(x), lines[i * 2 + 1].strip().split(','))
             global attempts
             attempts.append((pwd, feature))
+    return attempts[0][1]
 
 
 # if there is still any login to process
