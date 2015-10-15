@@ -27,7 +27,6 @@ def generate(pwd):
 
 # extract the coordinates based on the current features
 def extract(pwd, features):
-    # TODO: whether to return full coordinates
     coordinates = []
     i = 0
     for feature in features:
@@ -40,4 +39,9 @@ def extract(pwd, features):
             x = crypt.p(i << 1 + 1, config.r)
             y = gmpy2.sub(table[i - 1][1], crypt.g(i << 1 + 1, config.r ^ pwd))
             coordinates.append((x, y))
+    while len(coordinates) < config.max_features:
+        i += 1
+        x = crypt.p(i << 1, config.r)
+        y = gmpy2.sub(table[i - 1][0], crypt.g(i << 1, config.r ^ pwd))
+        coordinates.append((x, y))
     return coordinates

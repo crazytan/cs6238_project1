@@ -1,6 +1,6 @@
 # Project 1 for CS6238
 # Implements password hardening as described in the paper
-# Author:
+# Authors:
 #   Jia Tan, tanjia@gatech.edu
 #   Zenong Lu, kardlu@gatech.edu
 
