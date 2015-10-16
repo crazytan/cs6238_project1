@@ -45,3 +45,20 @@ def extract(pwd, features):
         y = gmpy2.sub(table[i - 1][0], crypt.g(i << 1, config.r ^ pwd))
         coordinates.append((x, y))
     return coordinates
+
+
+# extract the coordinate at specified index
+def extract_at(pwd, features, index):
+    coordinate = []
+    index += 1
+    if features[index] > config.ti:
+        x = crypt.p(index << 1, config.r)
+        y = gmpy2.sub(table[index - 1][0], crypt.g(index << 1, config.r ^ pwd))
+        coordinate.append(x)
+        coordinate.append(y)
+    else:
+        x = crypt.p(index << 1 + 1, config.r)
+        y = gmpy2.sub(table[index - 1][1], crypt.g(index << 1 + 1, config.r ^ pwd))
+        coordinate.append(x)
+        coordinate.append(y)
+    return coordinate

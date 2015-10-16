@@ -22,10 +22,19 @@ def initialize():
     history.init()
 
 
-def correction():
-
-
-    pass
+# Simple error correction
+def correction(pwd, feature):
+    coordinates = table.extract(pwd, feature)
+    for i in xrange(len(feature)):
+        coordinates_ = coordinates
+        coordinates_[i] = table.extract_at(pwd, feature, i)
+        h_pwd_ = poly.get_h_pwd(coordinates_)
+        if history.decrypt(h_pwd_):
+            history.add_feature(feature)
+            return 1
+        else:
+            if i == len(feature) - 1:
+                return 0
 
 
 def main():
