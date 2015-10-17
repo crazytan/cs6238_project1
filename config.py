@@ -47,10 +47,7 @@ def generate_rand():
 # randomly generate a hardened password
 def generate_h_pwd():
     global h_pwd
-    h_pwd = generate_rand()
-    while h_pwd >= q:
-        h_pwd = generate_rand()
-    h_pwd = mpz(h_pwd)
+    h_pwd = gmpy2.t_mod(generate_rand(), q)
 
 # prime
 q = 0
