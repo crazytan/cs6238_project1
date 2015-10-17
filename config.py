@@ -1,6 +1,7 @@
 # parameter configuration
 
 from gmpy2 import mpz
+import gmpy2
 import random
 
 # size of history file
