@@ -26,7 +26,7 @@ def generate_r():
     r = mpz(generate_rand())
 
 # hardened password
-h_pwd = 0
+h_pwd = mpz()
 
 # instance of Random class
 rand = None
@@ -50,7 +50,7 @@ def generate_h_pwd():
     h_pwd = gmpy2.t_mod(generate_rand(), q)
 
 # prime
-q = 0
+q = mpz()
 
 # prime size
 q_size = 160

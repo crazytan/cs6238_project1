@@ -2,21 +2,24 @@
 
 import config
 import crypt
-
+from gmpy2 import mpz
 
 history_features = []
-history_features_str = []
+# history_features_str = []
 
 
 # initialize the history file
 def init():
     history_file = open('history.dat', 'w+')
+    features = []
     for i in xrange(config.history_size):
-        features = []
+        feature = []
         for j in xrange(config.max_features):
-            features.append(None)
-        features_string = to_string(features)
-        history_file.writeline(features_string)
+            feature.append('$$$')
+        features.append(feature)
+    features_string = to_string(features)
+    features_str_cypher = crypt.encrypt(features_string, mpz(17))  # config.h_pwd)
+    history_file.write(features_str_cypher)
     history_file.close()
 
 
@@ -24,8 +27,9 @@ def init():
 def save():
     global history_features
     features_str = to_string(history_features)
+    features_str_cypher = crypt.encrypt(features_str, mpz(17))  # config.h_pwd)
     history_file = open('history.dat', 'w')
-    history_file.write(features_str)
+    history_file.write(features_str_cypher)
     history_file.close()
 
 
@@ -40,37 +44,32 @@ def read():
 # try to decrypt the history file using the password
 def decrypt(history_cypher, h_pwd_):
     history_message = crypt.decrypt(history_cypher, h_pwd_)
-    global history_features_str
-    history_features_str = history_message.split(';')
-    total_len = 0
-    for i in xrange(len(history_features_str)):
-        total_len += len(history_features_str[i])
-    if total_len != (config.feature_length + 1) * config.max_features * config.history_size:  # wrong length
+    if len(history_message) != (config.feature_length + 1) * config.max_features * config.history_size:  # wrong length
+        print 'a'
         return 0
-    if len(history_features_str) == 5:  # no padding
-        global history_features
-        history_features = from_string(history_features_str)
-        return 1
-    else:
-        if len(history_features_str) == 6:
-            len_of_last = len(history_features_str[5])  # length of padded part
-            pad_str = '0' * len_of_last
-            if history_features_str[5] == pad_str:
-                history_features_str = history_features_str[:5]  # remove padded '0'
-                global history_features
-                history_features = from_string(history_features_str)
-                return 1
-            else:
-                return 0
+    # global history_features_str
+    history_features_str = history_message.split(';')
+    global history_features
+    if len(history_features_str) == 6:
+        len_of_last = len(history_features_str[5])  # length of padded part
+        pad_str = '0' * len_of_last
+        if history_features_str[5] == pad_str:
+            # history_features_str = history_features_str[:5]  # remove padded '0'
+            history_features = from_string(history_message)
+            return 1
         else:
+            print 'b'
             return 0
+    else:
+        print 'c'
+        return 0
 
 
 # add new feature to history
 def add_feature(feature):
     global history_features
     history_features.append(feature)
-    history_features = history_features[:5]
+    history_features = history_features[1:]
 
 
 # int to string
@@ -81,7 +80,6 @@ def to_string(features):
             features_string += str(features[i][j]) + ','
         features_string = features_string[:-1] + ';'
     # pad features_string to fixed size
-    print len(features_string)
     if len(features_string) < (config.feature_length + 1) * config.max_features * config.history_size:
         features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string))
     return features_string
@@ -91,20 +89,27 @@ def to_string(features):
 def from_string(features_str):
     features = []
     features_str_arr = features_str.split(';')
+    features_str_arr = features_str_arr[:5]
     for i in xrange(len(features_str_arr)):
         feature_str = features_str_arr[i].split(',')
         feature = []
         for j in xrange(len(feature_str)):
-            feature.append(int(feature_str[j]))
+            if feature_str[j] == '$$$':
+                feature.append('$$$')
+            else:
+                feature.append(int(feature_str[j]))
         features.append(feature)
     return features
 
 
 # test
 if __name__ == "__main__":
-    test_features = [[1, 2, 3], [3, 4, 5], [4, 5, 6]]
-    test_features_str = to_string(test_features)
-    # print test_features_str
-    # print len(test_features_str)
-    features_from_str = from_string(test_features_str)
-    print features_from_str
+    # init()
+    history_content = read()
+    print decrypt(history_content, mpz(17))
+    test_feature = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    print history_features
+    add_feature(test_feature)
+    print history_features
+    save()
+
