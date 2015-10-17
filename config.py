@@ -19,6 +19,8 @@ ti = 10
 
 r = 0
 
+# simple mode
+simple = True
 
 # generate r
 def generate_r():

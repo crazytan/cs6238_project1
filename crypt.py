@@ -46,13 +46,16 @@ def decrypt(message, key):
 
 # a keyed pseudorandom function family
 def g(x, key):
-    mac = HMAC.new(key=get_byte_str_from_mpz(key), msg=get_byte_str_from_mpz(x)).digest()
-    return gmpy2.t_mod(mpz(get_bit_str_from_byte(mac), base=2), config.q)
+    if not config.simple:
+        mac = HMAC.new(key=get_byte_str_from_mpz(key), msg=get_byte_str_from_mpz(x)).digest()
+        return gmpy2.t_mod(mpz(get_bit_str_from_byte(mac), base=2), config.q)
+    return 0
 
 
 # a keyed pseudorandom permutation function family
 def p(x, key):
-    # TODO
+    if not config.simple:
+        pass  # TODO
     return x
 
 
