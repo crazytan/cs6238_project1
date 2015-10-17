@@ -2,7 +2,6 @@
 
 import config
 import crypt
-from gmpy2 import mpz
 import math
 
 history_features = []
@@ -81,14 +80,18 @@ def add_feature(feature):
     if len(feature) < config.max_features:
         feature.extend(['$$$' for i in xrange(config.max_features - len(feature))])
     global history_features
-    history_features.append(feature)
-    history_features = history_features[1:]
-    stat = []
-    for i in xrange(config.max_features):
-        stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))
-    save()
-    history_features = [] # erase the data in memory
-    return stat
+    if history_features:
+        history_features.append(feature)
+        history_features = history_features[1:]
+        stat = []
+        for i in xrange(config.max_features):
+            stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))
+        save()
+        if not config.debug:
+            history_features = [] # erase the data in memory
+        return stat
+    else:
+        raise ValueError("history not decrypted yet!")
 
 
 # serialize the feature history
@@ -123,11 +126,20 @@ def from_string(features_str):
 
 # test
 if __name__ == "__main__":
-    # init()
-    history_content = read()
-    print decrypt(history_content, mpz(17))
+    config.init_random()
+    config.generate_r()
+    config.generate_prime()
+    config.max_features = 10
+
+    # test init()
+    init()
+    print decrypt(config.h_pwd)
+
+    # test add_feature()
     test_feature = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    print history_features
-    add_feature(test_feature)
-    print history_features
-    save()
+    print "statistics: ", add_feature(test_feature)
+    print "history features: ", history_features
+    print decrypt(config.h_pwd)
+    print "statistics: ", add_feature(test_feature[::-1])
+    print "history features: ", history_features
+    print decrypt(config.h_pwd)
