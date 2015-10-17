@@ -62,3 +62,8 @@ def extract_at(pwd, features, index):
         coordinate.append(x)
         coordinate.append(y)
     return coordinate
+
+
+# update the instruction table by distinguishing features
+def update(pwd, feature, sigma, mu):
+    pass

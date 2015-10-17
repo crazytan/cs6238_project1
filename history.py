@@ -62,6 +62,8 @@ def add_feature(feature):
     global history_features
     history_features.append(feature)
     history_features = history_features[1:]
+    save()
+    history_features = [] # erase the data in memory
 
 
 # serialize the feature history
