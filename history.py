@@ -3,6 +3,7 @@
 import config
 import crypt
 from gmpy2 import mpz
+import math
 
 history_features = []
 # history_features_str = []
@@ -54,6 +55,26 @@ def decrypt(h_pwd_):
         if config.debug: print 'c'
         return False
 
+# calculate mean and standard deviation for a feature
+def cal_sigma_mu(feature):
+    sum = 0
+    cnt = 0
+    _any = False
+    for f in feature:
+        if isinstance(f, int):
+            sum += f
+            cnt += 1
+            _any = True
+    if not _any:
+        return None, None
+    mu = float(sum) / cnt
+    sum = 0
+    for f in feature:
+        if isinstance(f, int):
+            sum += (f - mu) * (f - mu)
+    sigma = math.sqrt(sum / cnt)
+    return sigma, mu
+
 
 # add new feature to history
 def add_feature(feature):
@@ -62,8 +83,12 @@ def add_feature(feature):
     global history_features
     history_features.append(feature)
     history_features = history_features[1:]
+    stat = []
+    for i in xrange(config.max_features):
+        stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))
     save()
     history_features = [] # erase the data in memory
+    return stat
 
 
 # serialize the feature history

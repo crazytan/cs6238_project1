@@ -37,10 +37,10 @@ def correction(pwd, feature):
 # update the history file and instruction table after successful login
 def update(pwd, feature):
     config.generate_h_pwd()
-    sigma, mu = history.add_feature(feature)
+    stat = history.add_feature(feature)
     config.generate_r()
     poly.generate_poly()
-    table.update(pwd, feature, sigma, mu)
+    table.update(pwd, feature, stat)
 
 
 def main():

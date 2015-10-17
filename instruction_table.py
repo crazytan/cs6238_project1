@@ -65,5 +65,5 @@ def extract_at(pwd, features, index):
 
 
 # update the instruction table by distinguishing features
-def update(pwd, feature, sigma, mu):
+def update(pwd, feature, stat):
     pass
