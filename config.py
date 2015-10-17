@@ -22,6 +22,9 @@ r = 0
 # simple mode
 simple = True
 
+# debug mode
+debug = True
+
 # generate r
 def generate_r():
     global r

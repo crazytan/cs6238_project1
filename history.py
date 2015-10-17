@@ -10,43 +10,33 @@ history_features = []
 
 # initialize the history file
 def init():
-    history_file = open('history.dat', 'w+')
-    features = []
-    for i in xrange(config.history_size):
-        feature = []
-        for j in xrange(config.max_features):
-            feature.append('$$$')
-        features.append(feature)
-    features_string = to_string(features)
-    features_str_cypher = crypt.encrypt(features_string, mpz(17))  # config.h_pwd)
-    history_file.write(features_str_cypher)
-    history_file.close()
+    global history_features
+    history_features = [['$$$' for j in xrange(config.max_features)] for i in xrange(config.history_size)]
+    save()
 
 
 # save the history file to disk
 def save():
     global history_features
     features_str = to_string(history_features)
-    features_str_cypher = crypt.encrypt(features_str, mpz(17))  # config.h_pwd)
-    history_file = open('history.dat', 'w')
-    history_file.write(features_str_cypher)
-    history_file.close()
+    features_str_cypher = crypt.encrypt(features_str, config.h_pwd)
+    with open('history.dat', 'w') as file:
+        file.write(features_str_cypher)
 
 
 # read the history file from disk
 def read():
-    history_file = open('history.dat', 'r')
-    history_file_content = history_file.read()
-    history_file.close()
+    with open('history.dat', 'r') as file:
+        history_file_content = file.read()
     return history_file_content
 
 
 # try to decrypt the history file using the password
-def decrypt(history_cypher, h_pwd_):
-    history_message = crypt.decrypt(history_cypher, h_pwd_)
+def decrypt(h_pwd_):
+    history_message = crypt.decrypt(read(), h_pwd_)
     if len(history_message) != (config.feature_length + 1) * config.max_features * config.history_size:  # wrong length
-        print 'a'
-        return 0
+        if config.debug: print 'a'
+        return False
     # global history_features_str
     history_features_str = history_message.split(';')
     global history_features
@@ -56,23 +46,25 @@ def decrypt(history_cypher, h_pwd_):
         if history_features_str[5] == pad_str:
             # history_features_str = history_features_str[:5]  # remove padded '0'
             history_features = from_string(history_message)
-            return 1
+            return True
         else:
-            print 'b'
-            return 0
+            if config.debug: print 'b'
+            return False
     else:
-        print 'c'
-        return 0
+        if config.debug: print 'c'
+        return False
 
 
 # add new feature to history
 def add_feature(feature):
+    if len(feature) < config.max_features:
+        feature.extend(['$$$' for i in xrange(config.max_features - len(feature))])
     global history_features
     history_features.append(feature)
     history_features = history_features[1:]
 
 
-# int to string
+# serialize the feature history
 def to_string(features):
     features_string = ''
     for i in xrange(len(features)):
@@ -85,7 +77,7 @@ def to_string(features):
     return features_string
 
 
-# string to int
+# deserialize the feature history
 def from_string(features_str):
     features = []
     features_str_arr = features_str.split(';')
@@ -112,4 +104,3 @@ if __name__ == "__main__":
     add_feature(test_feature)
     print history_features
     save()
-
