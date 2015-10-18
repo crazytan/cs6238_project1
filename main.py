@@ -19,8 +19,8 @@ def initialize():
     config.generate_prime()
     config.generate_h_pwd()
     poly.generate_poly()
-    pwd = reader.init(raw_input())
-    table.generate(pwd, None, None)
+    pwd = reader.init("input.txt")  # raw_input())
+    table.generate(pwd, None)
     history.init()
 
 

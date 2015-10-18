@@ -46,18 +46,18 @@ def calculate(x):
         ans = gmpy2.t_mod(gmpy2.add(gmpy2.mul(ans, x), c_i), config.q)
     return ans
 
-if __name__ == "__main__":
-    # test for calculate
-    config.init_random()
-    config.generate_prime()
-    global c
-    c = [mpz(20), mpz(1), mpz(2)]
-    print calculate(mpz(2))
-
-    # test for generate_poly() and get_h_pwd
-    config.generate_h_pwd()
-    config.max_features = 127
-    print "h_pwd: ", config.h_pwd
-    generate_poly()
-    coordinates = [(i, calculate(i)) for i in [mpz(j+1) for j in range(config.max_features)]]
-    print "h_pwd_: ", get_h_pwd(coordinates)
+# if __name__ == "__main__":
+#     # test for calculate
+#     config.init_random()
+#     config.generate_prime()
+#     global c
+#     c = [mpz(20), mpz(1), mpz(2)]
+#     print calculate(mpz(2))
+#
+#     # test for generate_poly() and get_h_pwd
+#     config.generate_h_pwd()
+#     config.max_features = 127
+#     print "h_pwd: ", config.h_pwd
+#     generate_poly()
+#     coordinates = [(i, calculate(i)) for i in [mpz(j+1) for j in range(config.max_features)]]
+#     print "h_pwd_: ", get_h_pwd(coordinates)

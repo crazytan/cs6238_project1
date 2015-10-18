@@ -23,10 +23,10 @@ def generate(pwd, stat):
             table.append((y_0, y_1))
         else:
             for j in xrange(len(stat)):
-                if stat[j] < config.ti:
+                if (stat[j][1] + stat[j][0] * config.k) < config.ti:
                     rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
                     table.append((y_0, rand_value))
-                elif stat[j] > config.ti:
+                elif (stat[j][1] - stat[j][0] * config.k) > config.ti:
                     rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
                     table.append((rand_value, y_1))
                 else:

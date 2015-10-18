@@ -54,6 +54,7 @@ def decrypt(h_pwd_):
         if config.debug: print 'c'
         return False
 
+
 # calculate mean and standard deviation for a feature
 def cal_sigma_mu(feature):
     sum = 0
@@ -125,21 +126,21 @@ def from_string(features_str):
 
 
 # test
-if __name__ == "__main__":
-    config.init_random()
-    config.generate_r()
-    config.generate_prime()
-    config.max_features = 10
-
-    # test init()
-    init()
-    print decrypt(config.h_pwd)
-
-    # test add_feature()
-    test_feature = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    print "statistics: ", add_feature(test_feature)
-    print "history features: ", history_features
-    print decrypt(config.h_pwd)
-    print "statistics: ", add_feature(test_feature[::-1])
-    print "history features: ", history_features
-    print decrypt(config.h_pwd)
+# if __name__ == "__main__":
+#     config.init_random()
+#     config.generate_r()
+#     config.generate_prime()
+#     config.max_features = 10
+#
+#     # test init()
+#     init()
+#     print decrypt(config.h_pwd)
+#
+#     # test add_feature()
+#     test_feature = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+#     print "statistics: ", add_feature(test_feature)
+#     print "history features: ", history_features
+#     print decrypt(config.h_pwd)
+#     print "statistics: ", add_feature(test_feature[::-1])
+#     print "history features: ", history_features
+#     print decrypt(config.h_pwd)
