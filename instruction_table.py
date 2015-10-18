@@ -45,16 +45,16 @@ def extract(pwd, features):
     for feature in features:
         i += 1
         if feature < config.ti:
-            x = crypt.p(i << 1, config.r)
+            x = crypt.p(mpz(i << 1), config.r)
             y = gmpy2.sub(table[i - 1][0], crypt.g(mpz(i << 1), config.r ^ pwd))
             coordinates.append((x, y))
         else:
-            x = crypt.p(i << 1 + 1, config.r)
+            x = crypt.p(mpz((i << 1) + 1), config.r)
             y = gmpy2.sub(table[i - 1][1], crypt.g(mpz((i << 1) + 1), config.r ^ pwd))
             coordinates.append((x, y))
     while len(coordinates) < config.max_features:
         i += 1
-        x = crypt.p(i << 1, config.r)
+        x = crypt.p(mpz(i << 1), config.r)
         y = gmpy2.sub(table[i - 1][0], crypt.g(mpz(i << 1), config.r ^ pwd))
         coordinates.append((x, y))
     return coordinates
@@ -64,14 +64,15 @@ def extract(pwd, features):
 def extract_at(pwd, features, index):
     coordinate = []
     index += 1
+    pwd = mpz(crypt.get_bit_str_from_byte(pwd), base=2)
     if features[index] > config.ti:
-        x = crypt.p(index << 1, config.r)
-        y = gmpy2.sub(table[index - 1][0], crypt.g(index << 1, config.r ^ pwd))
+        x = crypt.p(mpz(index << 1), config.r)
+        y = gmpy2.sub(table[index - 1][0], crypt.g(mpz(index << 1), config.r ^ pwd))
         coordinate.append(x)
         coordinate.append(y)
     else:
-        x = crypt.p(index << 1 + 1, config.r)
-        y = gmpy2.sub(table[index - 1][1], crypt.g(index << 1 + 1, config.r ^ pwd))
+        x = crypt.p(mpz((index << 1) + 1), config.r)
+        y = gmpy2.sub(table[index - 1][1], crypt.g(mpz((index << 1) + 1), config.r ^ pwd))
         coordinate.append(x)
         coordinate.append(y)
     return coordinate

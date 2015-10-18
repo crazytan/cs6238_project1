@@ -22,6 +22,11 @@ def get_lambda_i(x, i):
     lambda_i = mpz(1)
     for j in xrange(len(x)):
         if i != j:
+            if x[i] == x[j]:
+                print x
+                print i
+                print j
+                print config.q
             tmp = gmpy2.invert(gmpy2.sub(x[j], x[i]), config.q)
             tmp = gmpy2.t_mod(gmpy2.mul(x[j], tmp), config.q)
             lambda_i = gmpy2.t_mod(gmpy2.mul(lambda_i, tmp), config.q)

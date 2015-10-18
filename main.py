@@ -28,11 +28,14 @@ def initialize():
 def correction(pwd, feature):
     coordinates = table.extract(pwd, feature)
     for i in xrange(len(feature)):
-        coordinates_ = coordinates
-        coordinates_[i] = table.extract_at(pwd, feature, i)
-        h_pwd_ = poly.get_h_pwd(coordinates_)
+        tmp_x = coordinates[i][0]
+        tmp_y = coordinates[i][1]
+        coordinates[i] = table.extract_at(pwd, feature, i)
+        h_pwd_ = poly.get_h_pwd(coordinates)
         if history.decrypt(h_pwd_):
             return True
+        coordinates[i][0] = tmp_x
+        coordinates[i][1] = tmp_y
     return False
 
 
@@ -42,7 +45,7 @@ def update(pwd, feature):
     stat = history.add_feature(feature)
     config.generate_r()
     poly.generate_poly()
-    table.generate(pwd, feature, stat)
+    table.generate(pwd, stat)
 
 
 def main():
