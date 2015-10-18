@@ -64,3 +64,6 @@ target/
 
 # history file
 *.dat
+
+# OS X
+.DS_Store
