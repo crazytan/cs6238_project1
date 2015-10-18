@@ -1,5 +1,6 @@
 # helper module for reading login file
 
+from gmpy2 import mpz
 import config
 
 # list for all login attempts

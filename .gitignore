@@ -58,3 +58,9 @@ target/
 
 # PyCharm
 .idea/
+
+# input and output files
+*.txt
+
+# history file
+*.dat
