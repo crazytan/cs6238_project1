@@ -69,6 +69,8 @@ def cal_sigma_mu(feature):
             _any = True
     if not _any:
         return None, None
+    # if cnt < 5:
+    #     return None, None
     mu = float(sum) / cnt
     sum = 0
     for f in feature:

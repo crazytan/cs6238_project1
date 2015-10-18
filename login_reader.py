@@ -36,7 +36,7 @@ def next_login():
 
 # return if still in initialization stage
 def if_init():
-    return current <= config.history_size
+    return current < config.history_size
 
 
 # if __name__ == "__main__":

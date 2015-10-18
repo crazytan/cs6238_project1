@@ -34,9 +34,7 @@ def generate(pwd, stat):
                 rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
                 table.append((rand_value, y_1))
             else:
-                rand_value_0 = gmpy2.t_mod(config.generate_rand(), config.q)
-                rand_value_1 = gmpy2.t_mod(config.generate_rand(), config.q)
-                table.append((rand_value_0, rand_value_1))
+                table.append((y_0, y_1))
 
 
 # extract the coordinates based on the current features
