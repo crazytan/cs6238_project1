@@ -25,6 +25,7 @@ simple = True
 # debug mode
 debug = True
 
+
 # generate r
 def generate_r():
     global r

@@ -10,7 +10,7 @@ import config
 
 # return a byte string from mpz
 def get_byte_str_from_mpz(key):
-    key_bit =  key.digits(2)
+    key_bit = key.digits(2)
     key_bit = '0'*(256 - len(key_bit)) + key_bit
     key_byte = ''
     while len(key_bit) > 0:

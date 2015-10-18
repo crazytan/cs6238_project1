@@ -51,7 +51,9 @@ def decrypt(h_pwd_):
             if config.debug: print 'b'
             return False
     else:
-        if config.debug: print 'c'
+        if config.debug:
+            print 'c'
+            print len(history_features_str)
         return False
 
 
