@@ -14,11 +14,13 @@ import history
 # initialization procedure
 def initialize():
     config.init_random()
+    config.simple = False
+    config.debug = False
     config.generate_prime()
     config.generate_h_pwd()
     poly.generate_poly()
     pwd = reader.init(raw_input())
-    table.generate(pwd)
+    table.generate(pwd, None, None)
     history.init()
 
 
@@ -40,7 +42,7 @@ def update(pwd, feature):
     stat = history.add_feature(feature)
     config.generate_r()
     poly.generate_poly()
-    table.update(pwd, feature, stat)
+    table.generate(pwd, feature, stat)
 
 
 def main():
