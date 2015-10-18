@@ -39,8 +39,8 @@ def if_init():
     return current < config.history_size
 
 
-# if __name__ == "__main__":
-#     input_file = "input.txt"
-#     print init(input_file)
-#     while has_next():
-#         print next_login()
+if __name__ == "__main__":
+    input_file = "input.txt"
+    print init(input_file)
+    while has_next():
+        print next_login()
