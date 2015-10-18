@@ -11,7 +11,7 @@ table = []
 
 
 # generate the instruction table based on current polynomial
-def generate(pwd, feature, stat):
+def generate(pwd, stat):
     config.generate_r()
     for i in xrange(config.max_features):
         x_0 = crypt.p((i + 1) << 1, config.r)
@@ -22,7 +22,15 @@ def generate(pwd, feature, stat):
         if reader.if_init():
             table.append((y_0, y_1))
         else:
-            pass  # TODO
+            for j in xrange(len(stat)):
+                if stat[j] < config.ti:
+                    rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
+                    table.append((y_0, rand_value))
+                elif stat[j] > config.ti:
+                    rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
+                    table.append((rand_value, y_1))
+                else:
+                    table.append((y_0, y_1))
 
 
 # extract the coordinates based on the current features
