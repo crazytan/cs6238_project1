@@ -49,7 +49,7 @@ def g(x, key):
     if not config.simple:
         mac = HMAC.new(key=get_byte_str_from_mpz(key), msg=get_byte_str_from_mpz(x)).digest()
         return gmpy2.t_mod(mpz(get_bit_str_from_byte(mac), base=2), config.q)
-    return 0
+    return mpz()
 
 
 # a keyed pseudorandom permutation function family

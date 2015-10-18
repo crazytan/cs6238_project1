@@ -61,3 +61,6 @@ target/
 
 # input and output files
 *.txt
+
+# history file
+*.dat
