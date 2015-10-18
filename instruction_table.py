@@ -33,6 +33,10 @@ def generate(pwd, stat):
             elif (stat[i][1] - stat[i][0] * config.k) > config.ti:
                 rand_value = gmpy2.t_mod(config.generate_rand(), config.q)
                 table.append((rand_value, y_1))
+            else:
+                rand_value_0 = gmpy2.t_mod(config.generate_rand(), config.q)
+                rand_value_1 = gmpy2.t_mod(config.generate_rand(), config.q)
+                table.append((rand_value_0, rand_value_1))
 
 
 # extract the coordinates based on the current features
