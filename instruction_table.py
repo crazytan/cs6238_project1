@@ -31,6 +31,8 @@ def generate(pwd, stat):
                     table.append((rand_value, y_1))
                 else:
                     table.append((y_0, y_1))
+            if len(stat) < config.max_features:
+                table.extend([(y_0, y_1) for j in xrange(config.max_features - len(stat))])
 
 
 # extract the coordinates based on the current features
