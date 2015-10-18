@@ -63,9 +63,9 @@ def extract(pwd, features):
 # extract the coordinate at specified index
 def extract_at(pwd, features, index):
     coordinate = []
-    # index += 1
+    index += 1
     pwd = mpz(crypt.get_bit_str_from_byte(pwd), base=2)
-    if features[index] > config.ti:
+    if features[index - 1] > config.ti:
         x = crypt.p(mpz(index << 1), config.r)
         y = gmpy2.sub(table[index - 1][0], crypt.g(mpz(index << 1), config.r ^ pwd))
         coordinate.append(x)
