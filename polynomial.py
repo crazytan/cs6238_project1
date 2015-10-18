@@ -22,7 +22,7 @@ def get_lambda_i(x, i):
     lambda_i = mpz(1)
     for j in xrange(len(x)):
         if i != j:
-            if x[i] == x[j]:
+            if x[i] == x[j] and config.debug:
                 print x
                 print i
                 print j

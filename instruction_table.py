@@ -17,9 +17,9 @@ def generate(pwd, stat):
     pwd = mpz(crypt.get_bit_str_from_byte(pwd), base=2)
     for i in xrange(config.max_features):
         x_0 = crypt.p(mpz((i + 1) << 1), config.r)
-        x_1 = crypt.p(mpz((i + 1) << 1 + 1), config.r)
+        x_1 = crypt.p(mpz(((i + 1) << 1) + 1), config.r)
         y_0 = gmpy2.add(poly.calculate(x_0), crypt.g(mpz((i + 1) << 1), config.r ^ pwd))
-        y_1 = gmpy2.add(poly.calculate(x_1), crypt.g(mpz((i + 1) << 1 + 1), config.r ^ pwd))
+        y_1 = gmpy2.add(poly.calculate(x_1), crypt.g(mpz(((i + 1) << 1) + 1), config.r ^ pwd))
         global table
         if reader.if_init():
             table.append((y_0, y_1))
@@ -49,8 +49,8 @@ def extract(pwd, features):
             y = gmpy2.sub(table[i - 1][0], crypt.g(mpz(i << 1), config.r ^ pwd))
             coordinates.append((x, y))
         else:
-            x = crypt.p(mpz(i << 1 + 1), config.r)
-            y = gmpy2.sub(table[i - 1][1], crypt.g(mpz(i << 1 + 1), config.r ^ pwd))
+            x = crypt.p(mpz((i << 1) + 1), config.r)
+            y = gmpy2.sub(table[i - 1][1], crypt.g(mpz((i << 1) + 1), config.r ^ pwd))
             coordinates.append((x, y))
     while len(coordinates) < config.max_features:
         i += 1
@@ -71,8 +71,8 @@ def extract_at(pwd, features, index):
         coordinate.append(x)
         coordinate.append(y)
     else:
-        x = crypt.p(mpz(index << 1 + 1), config.r)
-        y = gmpy2.sub(table[index - 1][1], crypt.g(mpz(index << 1 + 1), config.r ^ pwd))
+        x = crypt.p(mpz((index << 1) + 1), config.r)
+        y = gmpy2.sub(table[index - 1][1], crypt.g(mpz((index << 1) + 1), config.r ^ pwd))
         coordinate.append(x)
         coordinate.append(y)
     return coordinate
