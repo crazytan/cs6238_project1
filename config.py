@@ -16,6 +16,9 @@ feature_length = 3
 # length of redundancy
 redundancy_len = 10
 
+# fixed length of history file
+history_file_len = (feature_length + 1) * max_features * history_size + redundancy_len
+
 k = 2
 
 ti = 10

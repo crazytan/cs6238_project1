@@ -11,7 +11,7 @@ history_features = []
 # initialize the history file
 def init():
     global history_features
-    history_features = [['$$$' for j in xrange(config.max_features)] for i in xrange(config.history_size)]
+    history_features = [['$$$' for j in xrange(config.max_features)] for i in xrange(config.history_size)]  # pad '$$$' as initial features
     save()
 
 
@@ -19,7 +19,7 @@ def init():
 def save():
     global history_features
     features_str = to_string(history_features)
-    features_str_cypher = crypt.encrypt(features_str, config.h_pwd)
+    features_str_cypher = crypt.encrypt(features_str, config.h_pwd)  # encrypt history features before write to disk
     with open('history.dat', 'w') as file:
         file.write(features_str_cypher)
 
@@ -34,23 +34,21 @@ def read():
 # try to decrypt the history file using the password
 def decrypt(h_pwd_):
     history_message = crypt.decrypt(read(), h_pwd_)
-    if len(history_message) != (config.feature_length + 1) * config.max_features * config.history_size + config.redundancy_len:  # wrong length
+    if len(history_message) != config.history_file_len:  # wrong length
         if config.debug: print 'a'
         return False
-    # global history_features_str
     history_features_str = history_message.split(';')
     global history_features
-    if len(history_features_str) == 6:
+    if len(history_features_str) == 6:  # verify if there are 5 groups of features
         len_of_last = len(history_features_str[5])  # length of padded part
         pad_str = '0' * len_of_last
-        if history_features_str[5] == pad_str:
-            # history_features_str = history_features_str[:5]  # remove padded '0'
-            history_features = from_string(history_message)
+        if history_features_str[5] == pad_str:  # check if redundant part is string of '0'
+            history_features = from_string(history_message)  # extract history features
             return True
-        else:
+        else:   # decryption failed
             if config.debug: print 'b'
             return False
-    else:
+    else:   # decryption failed
         if config.debug:
             print 'c'
             print len(history_features_str)
@@ -67,10 +65,8 @@ def cal_sigma_mu(feature):
             sum += f
             cnt += 1
             _any = True
-    if not _any:
+    if not _any:    # still in init stage
         return None, None
-    # if cnt < 5:
-    #     return None, None
     mu = float(sum) / cnt
     sum = 0
     for f in feature:
@@ -83,14 +79,14 @@ def cal_sigma_mu(feature):
 # add new feature to history
 def add_feature(feature):
     if len(feature) < config.max_features:
-        feature.extend(['$$$' for i in xrange(config.max_features - len(feature))])
+        feature.extend(['$$$' for i in xrange(config.max_features - len(feature))])  # pad features to max_features
     global history_features
     if history_features:
         history_features.append(feature)
-        history_features = history_features[1:]
+        history_features = history_features[1:]  # remove the oldest group of features
         stat = []
         for i in xrange(config.max_features):
-            stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))
+            stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))  # calculate new sigma & mu
         save()
         if not config.debug:
             history_features = [] # erase the data in memory
@@ -106,10 +102,7 @@ def to_string(features):
         for j in xrange(len(features[i])):
             features_string += str(features[i][j]) + ','
         features_string = features_string[:-1] + ';'
-    # pad features_string to fixed size
-    features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string) + config.redundancy_len)
-    # if len(features_string) < (config.feature_length + 1) * config.max_features * config.history_size:
-    #     features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string))
+    features_string += '0' * (config.history_file_len - len(features_string))  # pad features_string to fixed size
     return features_string
 
 
@@ -122,7 +115,7 @@ def from_string(features_str):
         feature_str = features_str_arr[i].split(',')
         feature = []
         for j in xrange(len(feature_str)):
-            if feature_str[j] == '$$$':
+            if feature_str[j] == '$$$':  # padded part
                 feature.append('$$$')
             else:
                 feature.append(int(feature_str[j]))
