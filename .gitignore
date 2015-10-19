@@ -70,3 +70,6 @@ target/
 
 # emacs
 *~
+
+# test files
+*.in
