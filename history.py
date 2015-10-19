@@ -34,7 +34,7 @@ def read():
 # try to decrypt the history file using the password
 def decrypt(h_pwd_):
     history_message = crypt.decrypt(read(), h_pwd_)
-    if len(history_message) != (config.feature_length + 1) * config.max_features * config.history_size:  # wrong length
+    if len(history_message) != (config.feature_length + 1) * config.max_features * config.history_size + config.redundancy_len:  # wrong length
         if config.debug: print 'a'
         return False
     # global history_features_str
@@ -107,8 +107,9 @@ def to_string(features):
             features_string += str(features[i][j]) + ','
         features_string = features_string[:-1] + ';'
     # pad features_string to fixed size
-    if len(features_string) < (config.feature_length + 1) * config.max_features * config.history_size:
-        features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string))
+    features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string) + config.redundancy_len)
+    # if len(features_string) < (config.feature_length + 1) * config.max_features * config.history_size:
+    #     features_string += '0' * ((config.feature_length + 1) * config.max_features * config.history_size - len(features_string))
     return features_string
 
 

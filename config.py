@@ -13,6 +13,9 @@ max_features = 63
 # maximum length of single feature
 feature_length = 3
 
+# length of redundancy
+redundancy_len = 10
+
 k = 2
 
 ti = 10
