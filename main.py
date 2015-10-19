@@ -44,7 +44,6 @@ def correction(pwd, feature):
 def update(pwd, feature):
     config.generate_h_pwd()  # generate the new h_pwd
     stat = history.add_feature(feature)  # add the new feature to history file and save it
-    config.generate_r()
     poly.generate_poly()  # generate the new polynomial
     table.generate(pwd, stat)  # generate the new table
 
