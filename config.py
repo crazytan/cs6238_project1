@@ -3,6 +3,7 @@
 from gmpy2 import mpz
 import gmpy2
 import random
+import crypt
 
 # size of history file
 history_size = 5
@@ -26,10 +27,10 @@ ti = 10
 r = 0
 
 # simple mode
-simple = True
+simple = False
 
 # debug mode
-debug = True
+debug = False
 
 # prime
 q = mpz()
@@ -47,7 +48,15 @@ rand = None
 # generate r
 def generate_r():
     global r
-    r = mpz(generate_rand())
+    while True:
+        r = mpz(generate_rand())
+        x = [crypt.p(mpz(i * 2), r) for i in xrange(max_features)]
+        x.extend([crypt.p(mpz((i * 2) + 1), r) for i in xrange(max_features)])
+        s = set(x)
+        if len(s) == len(x):
+            return
+        if config.debug:
+            print 'generate_r() failed, regenerating...'
 
 
 # initiate rand

@@ -2,6 +2,7 @@
 
 from Crypto.Cipher import AES
 from Crypto.Hash import HMAC
+from Crypto.Hash import SHA
 from Crypto import Random
 from gmpy2 import mpz
 import gmpy2
@@ -56,7 +57,8 @@ def g(x, key):
 # a keyed pseudorandom permutation function family
 def p(x, key):
     if not config.simple:
-        return x  # TODO
+        mac = HMAC.new(key=get_byte_str_from_mpz(key), msg=get_byte_str_from_mpz(x), digestmod=SHA).digest()
+        return gmpy2.t_mod(mpz(get_bit_str_from_byte(mac), base=2), config.q)
     return x  # if in simple mode, return x
 
 

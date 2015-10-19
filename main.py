@@ -14,8 +14,6 @@ import history
 # initialization procedure
 def initialize():
     config.init_random()
-    config.simple = False
-    config.debug = False
     config.generate_prime()
     config.generate_h_pwd()
     poly.generate_poly()
