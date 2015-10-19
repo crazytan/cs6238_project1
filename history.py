@@ -40,8 +40,10 @@ def decrypt(h_pwd_):
     history_features_str = history_message.split(';')
     global history_features
     if len(history_features_str) == 6:  # verify if there are 5 groups of features
-        len_of_last = len(history_features_str[5])  # length of padded part
-        pad_str = '0' * len_of_last
+        for i in xrange(5):
+            if len(history_features_str[i].split(',')) != config.max_features:
+                return False
+        pad_str = '0' * len(history_features_str[5])  # length of padded part
         if history_features_str[5] == pad_str:  # check if redundant part is string of '0'
             history_features = from_string(history_message)  # extract history features
             return True
@@ -118,7 +120,11 @@ def from_string(features_str):
             if feature_str[j] == '$$$':  # padded part
                 feature.append('$$$')
             else:
-                feature.append(int(feature_str[j]))
+                try:
+                    feature.append(int(feature_str[j]))
+                except ValueError:
+                    print features_str[j]
+                    print '\n\n'
         features.append(feature)
     return features
 
