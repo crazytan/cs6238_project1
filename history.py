@@ -123,8 +123,16 @@ def from_string(features_str):
                 try:
                     feature.append(int(feature_str[j]))
                 except ValueError:
-                    print features_str[j]
-                    print '\n\n'
+                    if config.debug:
+                        f = open('error.txt', 'w')
+                        f.write(features_str)
+                        f.write('\n')
+                        f.write(features_str_arr[i])
+                        f.write('\n')
+                        f.write(feature_str[j])
+                        f.write('\n')
+                        f.close()
+                    raise
         features.append(feature)
     return features
 
