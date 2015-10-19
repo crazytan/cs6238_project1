@@ -50,10 +50,9 @@ def generate_r():
     global r
     while True:
         r = mpz(generate_rand())
-        x = [crypt.p(mpz(i * 2), r) for i in xrange(max_features)]
-        x.extend([crypt.p(mpz((i * 2) + 1), r) for i in xrange(max_features)])
-        s = set(x)
-        if len(s) == len(x):
+        x = [crypt.p(mpz((i + 1) * 2), r) for i in xrange(max_features)]  # calculate all possible x coordinates
+        x.extend([crypt.p(mpz(((i + 1) * 2) + 1), r) for i in xrange(max_features)])
+        if len(set(x)) == len(x):  # check if all elements are distinct
             return
         if config.debug:
             print 'generate_r() failed, regenerating...'
