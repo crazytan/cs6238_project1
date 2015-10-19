@@ -18,7 +18,8 @@ def get_byte_str_from_mpz(key):
         key_bit = key_bit[8:]
     return key_byte
 
-# return a bit string
+
+# return a bit string from byte string
 def get_bit_str_from_byte(key):
     bits = []
     for ch in key:
@@ -33,12 +34,12 @@ def get_bit_str_from_byte(key):
 def encrypt(message, key):
     iv = Random.new().read(AES.block_size)
     cipher = AES.new(key=get_byte_str_from_mpz(key), mode=AES.MODE_CFB, IV=iv)
-    return iv + cipher.encrypt(message)
+    return iv + cipher.encrypt(message)  # append the initial vector with the encrypted message and returns
 
 
 # decrypt a message with a key
 def decrypt(message, key):
-    iv = message[:AES.block_size]
+    iv = message[:AES.block_size]  # extract the initial vector
     message = message[AES.block_size:]
     cipher = AES.new(key=get_byte_str_from_mpz(key), mode=AES.MODE_CFB, IV=iv)
     return cipher.decrypt(message)
@@ -49,14 +50,14 @@ def g(x, key):
     if not config.simple:
         mac = HMAC.new(key=get_byte_str_from_mpz(key), msg=get_byte_str_from_mpz(x)).digest()
         return gmpy2.t_mod(mpz(get_bit_str_from_byte(mac), base=2), config.q)
-    return mpz()
+    return mpz()  # if in simple mode, return 0
 
 
 # a keyed pseudorandom permutation function family
 def p(x, key):
     if not config.simple:
-        pass  # TODO
-    return x
+        return x  # TODO
+    return x  # if in simple mode, return x
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ def get_lambda_i(x, i):
 
 # calculate the hardened password using interpolation
 def get_h_pwd(coordinates):
-    x = map(lambda x: x[0], coordinates)
+    x = map(lambda x: x[0], coordinates)  # extract the x and y coordinates
     y = map(lambda x: x[1], coordinates)
     h_pwd_ = mpz()
     for i in xrange(config.max_features):
