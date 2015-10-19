@@ -25,17 +25,23 @@ simple = True
 # debug mode
 debug = True
 
+# prime
+q = mpz()
 
-# generate r
-def generate_r():
-    global r
-    r = mpz(generate_rand())
+# prime size
+q_size = 160
 
 # hardened password
 h_pwd = mpz()
 
 # instance of Random class
 rand = None
+
+
+# generate r
+def generate_r():
+    global r
+    r = mpz(generate_rand())
 
 
 # initiate rand
@@ -47,19 +53,19 @@ def init_random():
 
 # generate a q_size bit long random integer
 def generate_rand():
-    return mpz(rand.getrandbits(q_size))
+    if rand:
+        return mpz(rand.getrandbits(q_size))
+    else:
+        raise ValueError("rand not initialized!")
 
 
 # randomly generate a hardened password
 def generate_h_pwd():
-    global h_pwd
-    h_pwd = gmpy2.t_mod(generate_rand(), q)
-
-# prime
-q = mpz()
-
-# prime size
-q_size = 160
+    if q > 0:
+        global h_pwd
+        h_pwd = gmpy2.t_mod(generate_rand(), q)
+    else:
+        raise ValueError("prime not initialized!")
 
 
 # randomly generate a 160 bit prime
@@ -68,4 +74,3 @@ def generate_prime():
     q = generate_rand()
     while not gmpy2.is_prime(q):
         q = generate_rand()
-    q = mpz(q)

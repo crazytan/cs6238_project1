@@ -31,31 +31,29 @@ def initialize():
 def correction(pwd, feature):
     coordinates = table.extract(pwd, feature)
     for i in xrange(len(feature)):
-        tmp_x = coordinates[i][0]
-        tmp_y = coordinates[i][1]
-        coordinates[i] = table.extract_at(pwd, feature, i)
+        tmp = coordinates[i]  # save the original coordinate
+        coordinates[i] = table.extract_at(pwd, feature, i)  # extract the other entry from table
         h_pwd_ = poly.get_h_pwd(coordinates)
         if history.decrypt(h_pwd_):
             return True
-        coordinates[i][0] = tmp_x
-        coordinates[i][1] = tmp_y
+        coordinates[i] = tmp  # restore the original coordinate
     return False
 
 
 # update the history file and instruction table after successful login
 def update(pwd, feature):
-    config.generate_h_pwd()
-    stat = history.add_feature(feature)
+    config.generate_h_pwd()  # generate the new h_pwd
+    stat = history.add_feature(feature)  # add the new feature to history file and save it
     config.generate_r()
-    poly.generate_poly()
-    table.generate(pwd, stat)
+    poly.generate_poly()  # generate the new polynomial
+    table.generate(pwd, stat)  # generate the new table
 
 
 def main():
     initialize()
-    while reader.has_next():
+    while reader.has_next():  # if there is still login attempts to process
         pwd, feature = reader.next_login()
-        h_pwd_ = poly.get_h_pwd(table.extract(pwd, feature))
+        h_pwd_ = poly.get_h_pwd(table.extract(pwd, feature))  # use the coordinates extracted from table to get h_pwd
         if history.decrypt(h_pwd_):
             print 1
             update(pwd, feature)
