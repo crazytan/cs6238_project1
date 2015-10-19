@@ -8,7 +8,7 @@ import random
 history_size = 5
 
 # maximum number of distinguishing features
-max_features = 127
+max_features = 63
 
 # maximum length of single feature
 feature_length = 3
