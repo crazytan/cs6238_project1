@@ -47,8 +47,7 @@ rand = None
 
 # generate r
 def generate_r():
-    if not q:
-        raise ValueError("q not initialized!")
+    assert not q, "q not initialized!"
     global r
     while True:
         r = mpz(generate_rand())
@@ -69,19 +68,15 @@ def init_random():
 
 # generate a q_size bit long random integer
 def generate_rand():
-    if rand:
-        return mpz(rand.getrandbits(q_size))
-    else:
-        raise ValueError("rand not initialized!")
+    assert rand, "rand not initialized!"
+    return mpz(rand.getrandbits(q_size))
 
 
 # randomly generate a hardened password
 def generate_h_pwd():
-    if q > 0:
-        global h_pwd
-        h_pwd = gmpy2.t_mod(generate_rand(), q)
-    else:
-        raise ValueError("prime not initialized!")
+    assert q, "prime not initialized!"
+    global h_pwd
+    h_pwd = gmpy2.t_mod(generate_rand(), q)
 
 
 # randomly generate a 160 bit prime

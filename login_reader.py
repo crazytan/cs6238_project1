@@ -39,14 +39,14 @@ def if_init():
     return current < config.history_size
 
 if __name__ == "__main__":
-    assert "CorrectPassword" == init("input.txt")
+    assert "CorrectPassword" == init("input.txt"), "init pwd error!"
     i = 0
     while has_next():
         i += 1
         if i <= 5:
-            assert if_init()
+            assert if_init(), "initialization message error!"
         else:
-            assert not if_init()
+            assert not if_init(), "initialization message error!"
         pwd, feature = next_login()
         assert type(pwd) == str
         assert type(feature) == list

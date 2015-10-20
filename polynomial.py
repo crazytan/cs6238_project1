@@ -55,7 +55,6 @@ if __name__ == "__main__":
     # test for calculate
     config.init_random()
     config.generate_prime()
-    global c
     c = [mpz(20), mpz(1), mpz(2)]
     print calculate(mpz(2))
 
