@@ -74,7 +74,10 @@ def cal_sigma_mu(feature):
     for f in feature:
         if isinstance(f, int):
             sum += (f - mu) * (f - mu)
-    sigma = math.sqrt(sum / cnt)
+    if cnt > 1:
+        sigma = math.sqrt(sum / cnt)
+    else:
+        sigma = 0
     return sigma, mu
 
 
