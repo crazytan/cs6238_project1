@@ -35,7 +35,7 @@ def read():
 def decrypt(h_pwd_):
     history_message = crypt.decrypt(read(), h_pwd_)
     if len(history_message) != config.history_file_len:  # wrong length
-        if config.debug: print 'a'
+        if __debug__: print 'a'
         return False
     history_features_str = history_message.split(';')
     global history_features
@@ -48,10 +48,10 @@ def decrypt(h_pwd_):
             history_features = from_string(history_message)  # extract history features
             return True
         else:   # decryption failed
-            if config.debug: print 'b'
+            if __debug__: print 'b'
             return False
     else:   # decryption failed
-        if config.debug:
+        if __debug__:
             print 'c'
             print len(history_features_str)
         return False
@@ -90,7 +90,7 @@ def add_feature(feature):
         for i in xrange(config.max_features):
             stat.append(cal_sigma_mu([history_features[j][i] for j in xrange(config.history_size)]))  # calculate new sigma & mu
         save()
-        if not config.debug:
+        if not __debug__:
             history_features = [] # erase the data in memory
         return stat
     else:
@@ -123,7 +123,7 @@ def from_string(features_str):
                 try:
                     feature.append(int(feature_str[j]))
                 except ValueError:
-                    if config.debug:
+                    if __debug__:
                         f = open('error.txt', 'w')
                         f.write(features_str)
                         f.write('\n')

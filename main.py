@@ -17,7 +17,7 @@ def initialize():
     config.generate_prime()
     config.generate_h_pwd()
     poly.generate_poly()
-    if config.debug:
+    if __debug__:
         pwd = reader.init("input.txt")
     else:
         pwd = reader.init(raw_input("enter the input file: "))

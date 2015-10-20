@@ -38,9 +38,15 @@ def next_login():
 def if_init():
     return current < config.history_size
 
-
 if __name__ == "__main__":
-    input_file = "input.txt"
-    print init(input_file)
+    assert "CorrectPassword" == init("input.txt")
+    i = 0
     while has_next():
-        print next_login()
+        i += 1
+        if i <= 5:
+            assert if_init()
+        else:
+            assert not if_init()
+        pwd, feature = next_login()
+        assert type(pwd) == str
+        assert type(feature) == list

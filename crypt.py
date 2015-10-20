@@ -64,19 +64,10 @@ def p(x, key):
 
 if __name__ == "__main__":
     # test for encrypt and decrypt
-    message = "This is a message"
-    print "Plaintext:"
-    print message
-    message = encrypt(message, mpz(17))
-    print "Encrypted message:"
-    print message
-    message = decrypt(message, mpz(17))
-    print "Decrypted message:"
-    print message
-
-    # test for g
+    mock_history = "history1;history2;etc."
     config.init_random()
-    config.generate_prime()
-    print 'g(1,97): ', g(mpz(1), mpz(97))
-    print 'g(2,97): ', g(mpz(2), mpz(97))
-    print 'g(1,87): ', g(mpz(1), mpz(87))
+    for i in xrange(100):
+        mock_key = mpz(config.generate_rand())
+        history_encrypt = encrypt(mock_history, mock_key)
+        history_decrypt = decrypt(history_encrypt, mock_key)
+        assert mock_history == history_decrypt, "de/encryption failed!"

@@ -72,3 +72,15 @@ def extract_at(pwd, features, index):
         x = crypt.p(mpz((index << 1) + 1), config.r)
         y = gmpy2.sub(table[index - 1][1], crypt.g(mpz((index << 1) + 1), config.r ^ pwd))
         return x, y
+
+if __name__ == "__main__":
+    # demonstrate the instruction table set up is correct
+    config.init_random()
+    config.generate_prime()
+    config.generate_r()
+    config.generate_h_pwd()
+    poly.generate_poly()
+    mock_pwd = "CorrectPassword"
+    generate(mock_pwd, None)
+    coordinates = extract(mock_pwd, [0])
+    assert poly.get_h_pwd(coordinates) == config.h_pwd, "table initialization error!"

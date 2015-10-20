@@ -47,6 +47,8 @@ rand = None
 
 # generate r
 def generate_r():
+    if not q:
+        raise ValueError("q not initialized!")
     global r
     while True:
         r = mpz(generate_rand())
@@ -54,7 +56,7 @@ def generate_r():
         x.extend([crypt.p(mpz(((i + 1) * 2) + 1), r) for i in xrange(max_features)])
         if len(set(x)) == len(x):  # check if all elements are distinct
             return
-        if config.debug:
+        if __debug__:
             print 'generate_r() failed, regenerating...'
 
 
