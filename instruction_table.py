@@ -64,7 +64,7 @@ def extract(pwd, features):
 def extract_at(pwd, features, index):
     index += 1
     pwd = mpz(crypt.get_bit_str_from_byte(pwd), base=2)
-    if features[index - 1] > config.ti:  # pick the other column of the table
+    if features[index - 1] >= config.ti:  # pick the other column of the table
         x = crypt.p(mpz(index << 1), config.r)
         y = gmpy2.sub(table[index - 1][0], crypt.g(mpz(index << 1), config.r ^ pwd))
         return x, y
